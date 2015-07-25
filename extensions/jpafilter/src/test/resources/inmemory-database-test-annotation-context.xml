@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+       xmlns:cache="http://www.springframework.org/schema/cache"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+		http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa-1.1.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.1.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd
+		http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd">
+
+    <context:annotation-config/>
+    <context:component-scan base-package="de.dailab.schaufenster.jpafilter"/>
+    <context:property-placeholder location="db.properties"/>
+    <cache:annotation-driven/>
+
+    <!-- DataSource configuration with database credentials for default jdbc driver -->
+    <bean id="comboPooledDataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+        <property name="driverClass" value="${dbDriverClass}"/>
+        <property name="jdbcUrl" value="${jdbcUrl}"/>
+        <property name="user" value="${dbUser}"/>
+        <property name="password" value="${dbPassword}"/>
+    </bean>
+
+    <!-- Hibernate is used as JPA vendor-->
+    <bean id="hibernateJpaVendorAdapter" class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+        <property name="generateDdl" value="${generateDdl}"/>
+        <property name="databasePlatform" value="${dbDialect}"/>
+        <property name="showSql" value="false"/>
+    </bean>
+
+
+    <!-- Hibernate session factory -->
+    <bean id="sessionFactory" class="org.springframework.orm.jpa.vendor.HibernateJpaSessionFactoryBean">
+        <property name="entityManagerFactory" ref="entityManagerFactory"/>
+    </bean>
+
+
+    <!--
+    <bean id="extSessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+        <property name="dataSource" ref="comboPooledDataSource"/>
+        <property name="annotatedPackages">
+            <array>
+                <value>de.dailab.schaufenster.domain</value>
+                <value>de.dailab.schaufenster.domain.order</value>
+                <value>de.dailab.schaufenster.domain.result</value>
+                <value>de.dailab.schaufenster.datamanagement</value>
+                <value>de.dailab.schaufenster.datamanagement.archive</value>
+                <value>de.dailab.schaufenster.domain.visual</value>
+                <value>de.dailab.schaufenster.domain.persistence</value>
+            </array>
+        </property>
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.dialect">${dbDialect}</prop>
+                <prop key="hibernate.show_sql">true</prop>
+                <prop key="hibernate.query.factory_class">org.hibernate.hql.internal.classic.ClassicQueryTranslatorFactory</prop>
+            </props>
+        </property>
+    </bean>
+    -->
+
+    <!-- Entity manager -->
+    <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="dataSource" ref="comboPooledDataSource"/>
+        <property name="persistenceProviderClass" value="org.hibernate.jpa.HibernatePersistenceProvider"/>
+        <property name="jpaVendorAdapter" ref="hibernateJpaVendorAdapter"/>
+        <property name="packagesToScan">
+            <array>
+                <value>de.dailab.schaufenster.jpafilter</value>
+            </array>
+        </property>
+        <property name="jpaProperties">
+            <props>
+                <prop key="hibernate.hbm2ddl.auto">${hbm2ddl}</prop>
+                <prop key="jadira.usertype.autoRegisterUserTypes">true</prop>
+                <prop key="hibernate.cache.use_query_cache">true</prop>
+                <prop key="hibernate.cache.use_second_level_cache">true</prop>
+                <prop key="hibernate.cache.region.factory_class">
+                    org.hibernate.cache.ehcache.SingletonEhCacheRegionFactory
+                </prop>
+                <!--
+                <prop key="javax.persistence.sharedCache.mode">ENABLE_SELECTIVE</prop>
+                -->
+            </props>
+        </property>
+    </bean>
+
+    <!--
+    <bean id="jpaSchemaExport" class="HibernateJpaSchemaExportFactory">
+        <property name="localContainerEntityManagerFactoryBean" ref="&amp;entityManagerFactory"/>
+
+        <property name="driverClass" value="${dbDriverClass}"/>
+        <property name="jdbcUrl" value="${jdbcUrl}"/>
+        <property name="user" value="${dbUser}"/>
+        <property name="password" value="${dbPassword}"/>
+
+        <property name="showSql" value="false"/>
+        <property name="hbm2ddlauto" value="${hbm2ddl}" />
+        <property name="dbDialect" value="${dbDialect}" />
+    </bean>
+    -->
+
+    <!-- Configure transaction management -->
+    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+        <property name="entityManagerFactory" ref="entityManagerFactory"/>
+    </bean>
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+
+    <!-- Defines where repositories are placed -->
+    <jpa:repositories base-package="de.dailab.schaufenster.jpafilter.repository,de.dailab.schaufenster.jpafilter.filter"
+                      factory-class="de.dailab.schaufenster.jpafilter.factory.DefaultRepositoryFactoryBean" />
+
+    <!-- Cache managers for spring -->
+    <bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager">
+        <property name="cacheManager" ref="ehcache"/>
+    </bean>
+    <bean id="ehcache" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
+        <property name="configLocation" value="ehcache.xml"/>
+    </bean>
+
+</beans>
