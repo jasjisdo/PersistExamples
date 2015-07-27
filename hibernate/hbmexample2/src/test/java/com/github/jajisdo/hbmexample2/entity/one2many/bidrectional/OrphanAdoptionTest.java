@@ -21,7 +21,7 @@ public class OrphanAdoptionTest {
     protected static MotherBiDirectionalService motherBiDirectionalService;
     protected static ChildBiDirectionalService childBiDirectionalService;
 
-    MotherBiDirectional mother;
+    protected MotherBiDirectional mother;
 
     @BeforeClass
     public static void init() {
@@ -74,15 +74,7 @@ public class OrphanAdoptionTest {
         children.add(persistedMaria);
         assertEquals(4, mother.getChildren().size());
 
-        /**
-         * org.springframework.dao.InvalidDataAccessApiUsageException: detached entity passed to persist:
-         * ChildBiDirectional; nested exception is
-         * org.hibernate.PersistentObjectException: detached entity passed to persist:
-         * ChildBiDirectional
-         */
-
-        // persist mother entity with data base (expect update for maria)
-        //motherBiDirectionalService.store(mother);
+        motherBiDirectionalService.store(mother);
 
     }
 }

@@ -74,20 +74,19 @@ public class GenericRepositoryImpl<T, ID extends Serializable>
 
     @Override
     public  <S extends T> S save(S entity) {
-        Session session = em.unwrap(Session.class);
+        Session session = em.unwrap(Session.class).getSessionFactory().openSession();
         Transaction tx  = session.beginTransaction();
-//        Transaction tx = session.getTransaction();
-//        tx.begin();
-        if (entityInformation.isNew(entity)) {
-            session.persist(entity);
-        } else {
-            session.saveOrUpdate(entity);
-        }
+//        if (entityInformation.isNew(entity)) {
+//            session.saveOrUpdate(entity);
+//        } else {
+//            session.update(entity);
+//        }
+        session.saveOrUpdate(entity);
         tx.commit();
         return entity;
     }
 
-    @Transactional
+    //@Transactional
     public  <S extends T> S saveAndFlush(S entity) {
 
         S result = save(entity);
@@ -97,7 +96,7 @@ public class GenericRepositoryImpl<T, ID extends Serializable>
 
     }
 
-    @Transactional
+    //@Transactional
     public T saveWithoutFlush(T entity) {
 
         return save(entity);
