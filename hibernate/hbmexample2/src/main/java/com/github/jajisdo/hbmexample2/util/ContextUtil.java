@@ -1,6 +1,6 @@
-package de.hbmexample2.util;
+package com.github.jajisdo.hbmexample2.util;
 
-import de.hbmexample2.service.AbstractDbService;
+import com.github.jajisdo.hbmexample2.service.AbstractDbService;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import javax.sql.DataSource;

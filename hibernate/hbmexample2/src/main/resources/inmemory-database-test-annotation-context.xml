@@ -10,7 +10,7 @@
 		http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd">
 
     <context:annotation-config/>
-    <context:component-scan base-package="de.hbmexample2"/>
+    <context:component-scan base-package="com.github.jajisdo.hbmexample2"/>
     <context:property-placeholder location="db.properties"/>
     <cache:annotation-driven/>
 
@@ -67,7 +67,7 @@
         <property name="jpaVendorAdapter" ref="hibernateJpaVendorAdapter"/>
         <property name="packagesToScan">
             <array>
-                <value>de.hbmexample2.entity</value>
+                <value>com.github.jajisdo.hbmexample2.entity</value>
             </array>
         </property>
         <property name="jpaProperties">
@@ -79,6 +79,7 @@
                 <prop key="hibernate.cache.region.factory_class">
                     org.hibernate.cache.ehcache.SingletonEhCacheRegionFactory
                 </prop>
+                <prop key="hibernate.current_session_context_class">thread</prop>
                 <!--
                 <prop key="javax.persistence.sharedCache.mode">ENABLE_SELECTIVE</prop>
                 -->
@@ -108,7 +109,8 @@
     <tx:annotation-driven transaction-manager="transactionManager"/>
 
     <!-- Defines where repositories are placed -->
-    <jpa:repositories base-package="de.hbmexample2.repository"/>
+    <jpa:repositories base-package="com.github.jajisdo.hbmexample2.repository"
+            factory-class="de.dailab.schaufenster.jpafilter.factory.DefaultRepositoryFactoryBean" />
 
     <!-- Cache managers for spring -->
     <bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager">

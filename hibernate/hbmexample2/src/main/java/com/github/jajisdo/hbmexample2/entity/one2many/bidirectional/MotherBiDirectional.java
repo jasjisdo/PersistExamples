@@ -1,6 +1,7 @@
-package de.hbmexample2.entity.one2many.bidirectional;
+package com.github.jajisdo.hbmexample2.entity.one2many.bidirectional;
 
 import javax.persistence.*;
+import javax.persistence.Entity;
 import java.util.List;
 
 @Entity
@@ -15,7 +16,7 @@ import java.util.List;
 @NamedQueries({
         @NamedQuery(name = "MotherBiDirectional.getIDs", query = "SELECT mum.id FROM MotherBiDirectional mum")
 })
-public class MotherBiDirectional extends de.hbmexample2.entity.Entity {
+public class MotherBiDirectional extends com.github.jajisdo.hbmexample2.entity.Entity {
 
     @Transient
     public transient static final String EG_PROFILE_FULL = "MotherFull";

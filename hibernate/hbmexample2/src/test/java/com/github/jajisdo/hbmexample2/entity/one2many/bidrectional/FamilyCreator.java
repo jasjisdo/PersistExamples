@@ -1,7 +1,7 @@
-package de.hbmexample2.entity.one2many.bidrectional;
+package com.github.jajisdo.hbmexample2.entity.one2many.bidrectional;
 
-import de.hbmexample2.entity.one2many.bidirectional.ChildBiDirectional;
-import de.hbmexample2.entity.one2many.bidirectional.MotherBiDirectional;
+import com.github.jajisdo.hbmexample2.entity.one2many.bidirectional.MotherBiDirectional;
+import com.github.jajisdo.hbmexample2.entity.one2many.bidirectional.ChildBiDirectional;
 
 import java.util.ArrayList;
 import java.util.List;

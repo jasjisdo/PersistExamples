@@ -11,6 +11,7 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
 
+    <groupId>com.jajisdo.github.extensions</groupId>
     <artifactId>jpafilter</artifactId>
     <version>1.0-SNAPSHOT</version>
     <name>JPA Hibernate Filter Extension</name>

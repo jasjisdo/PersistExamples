@@ -1,6 +1,7 @@
-package de.hbmexample2.entity.one2many.bidirectional;
+package com.github.jajisdo.hbmexample2.entity.one2many.bidirectional;
 
 import javax.persistence.*;
+import javax.persistence.Entity;
 
 /**
  * Created by domann on 15.07.15.
@@ -16,7 +17,7 @@ import javax.persistence.*;
 @NamedQueries({
         @NamedQuery(name = "ChildBiDirectional.getIDs", query = "SELECT ch.id FROM ChildBiDirectional ch")
 })
-public class ChildBiDirectional extends de.hbmexample2.entity.Entity {
+public class ChildBiDirectional extends com.github.jajisdo.hbmexample2.entity.Entity {
 
     @Transient
     public transient static final String EG_PROFILE_FULL = "ChildFull";

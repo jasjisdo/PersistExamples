@@ -1,4 +1,4 @@
-package de.hbmexample2.repository;
+package com.github.jajisdo.hbmexample2.repository;
 
 import org.springframework.data.repository.NoRepositoryBean;
 import org.springframework.data.repository.Repository;

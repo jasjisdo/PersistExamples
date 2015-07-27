@@ -1,10 +1,10 @@
-package de.hbmexample2.entity.one2many.bidrectional;
+package com.github.jajisdo.hbmexample2.entity.one2many.bidrectional;
 
-import de.hbmexample2.entity.one2many.bidirectional.ChildBiDirectional;
-import de.hbmexample2.entity.one2many.bidirectional.MotherBiDirectional;
-import de.hbmexample2.service.ChildBiDirectionalService;
-import de.hbmexample2.service.MotherBiDirectionalService;
-import de.hbmexample2.util.ContextUtil;
+import com.github.jajisdo.hbmexample2.entity.one2many.bidirectional.ChildBiDirectional;
+import com.github.jajisdo.hbmexample2.entity.one2many.bidirectional.MotherBiDirectional;
+import com.github.jajisdo.hbmexample2.service.ChildBiDirectionalService;
+import com.github.jajisdo.hbmexample2.service.MotherBiDirectionalService;
+import com.github.jajisdo.hbmexample2.util.ContextUtil;
 import org.junit.*;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -76,13 +76,13 @@ public class OrphanAdoptionTest {
 
         /**
          * org.springframework.dao.InvalidDataAccessApiUsageException: detached entity passed to persist:
-         * de.hbmexample2.entity.one2many.bidirectional.ChildBiDirectional; nested exception is
+         * ChildBiDirectional; nested exception is
          * org.hibernate.PersistentObjectException: detached entity passed to persist:
-         * de.hbmexample2.entity.one2many.bidirectional.ChildBiDirectional
+         * ChildBiDirectional
          */
 
         // persist mother entity with data base (expect update for maria)
-        motherBiDirectionalService.store(mother);
+        //motherBiDirectionalService.store(mother);
 
     }
 }

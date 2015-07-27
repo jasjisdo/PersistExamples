@@ -5,12 +5,14 @@ import de.dailab.schaufenster.jpafilter.annotation.FilterQuery;
 import org.apache.log4j.Logger;
 import org.hibernate.Filter;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.springframework.data.jpa.repository.support.JpaEntityInformation;
 import org.springframework.data.jpa.repository.support.JpaEntityInformationSupport;
 import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
 import org.springframework.data.repository.NoRepositoryBean;
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
@@ -70,23 +72,39 @@ public class GenericRepositoryImpl<T, ID extends Serializable>
         this(JpaEntityInformationSupport.getMetadata(domainClass, em), em, null);
     }
 
-    public <S extends T> S save(S entity) {
-        if (this.entityInformation.isNew(entity)) {
-            this.em.persist(entity);
-            flush();
-            return entity;
+    @Override
+    public  <S extends T> S save(S entity) {
+        Session session = em.unwrap(Session.class);
+        Transaction tx  = session.beginTransaction();
+//        Transaction tx = session.getTransaction();
+//        tx.begin();
+        if (entityInformation.isNew(entity)) {
+            session.persist(entity);
+        } else {
+            session.saveOrUpdate(entity);
         }
-        entity = this.em.merge(entity);
-        flush();
+        tx.commit();
         return entity;
     }
 
+    @Transactional
+    public  <S extends T> S saveAndFlush(S entity) {
 
-    public T saveWithoutFlush(T entity) {
-        return
-                super.save(entity);
+        S result = save(entity);
+        flush();
+
+        return result;
+
     }
 
+    @Transactional
+    public T saveWithoutFlush(T entity) {
+
+        return save(entity);
+
+    }
+
+    @Transactional
     public List<T> saveWithoutFlush(Iterable<? extends T> entities) {
         List<T> result = new ArrayList<T>();
         if (entities == null) {

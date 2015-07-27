@@ -16,6 +16,12 @@
     <dependencies>
 
         <dependency>
+            <groupId>com.jajisdo.github.extensions</groupId>
+            <artifactId>jpafilter</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>${junit.version}</version>

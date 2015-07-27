@@ -1,7 +1,7 @@
-package de.hbmexample2.service;
+package com.github.jajisdo.hbmexample2.service;
 
-import de.hbmexample2.entity.one2many.bidirectional.MotherBiDirectional;
-import de.hbmexample2.repository.MotherBiDirectionalRepository;
+import com.github.jajisdo.hbmexample2.entity.one2many.bidirectional.MotherBiDirectional;
+import com.github.jajisdo.hbmexample2.repository.MotherBiDirectionalRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;

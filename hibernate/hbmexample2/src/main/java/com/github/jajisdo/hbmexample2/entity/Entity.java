@@ -1,4 +1,4 @@
-package de.hbmexample2.entity;
+package com.github.jajisdo.hbmexample2.entity;
 
 import org.springframework.data.domain.Persistable;
 
