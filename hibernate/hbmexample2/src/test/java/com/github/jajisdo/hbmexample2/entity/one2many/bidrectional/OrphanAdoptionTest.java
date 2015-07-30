@@ -76,5 +76,14 @@ public class OrphanAdoptionTest {
 
         motherBiDirectionalService.store(mother);
 
+        assertEquals(1, motherBiDirectionalService.count());
+        assertEquals(4, childBiDirectionalService.count());
+
+        for (int i = 0; i < 100; i++) {
+            motherBiDirectionalService.store(mother);
+        }
+
+        assertEquals(1, motherBiDirectionalService.count());
+        assertEquals(4, childBiDirectionalService.count());
     }
 }

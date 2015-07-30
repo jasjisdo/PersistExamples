@@ -83,6 +83,7 @@ public class GenericRepositoryImpl<T, ID extends Serializable>
 //        }
         session.saveOrUpdate(entity);
         tx.commit();
+        session.close();
         return entity;
     }
 
