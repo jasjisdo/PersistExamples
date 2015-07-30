@@ -11,7 +11,7 @@ import java.util.Map;
  * Created by domann on 09.07.15.
  */
 @NoRepositoryBean
-public interface GenericRepository<T, ID extends Serializable>
+public interface HibernateJpaRepository<T, ID extends Serializable>
         extends JpaRepository<T, ID> {
 
     public T saveWithoutFlush(T entity);

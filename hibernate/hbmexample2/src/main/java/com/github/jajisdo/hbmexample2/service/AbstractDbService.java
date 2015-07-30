@@ -1,15 +1,14 @@
 package com.github.jajisdo.hbmexample2.service;
 
 import com.github.jajisdo.hbmexample2.entity.Entity;
-import com.github.jajisdo.hbmexample2.repository.CustomCrudRepository;
-import de.dailab.schaufenster.jpafilter.repository.GenericRepository;
+import de.dailab.schaufenster.jpafilter.repository.HibernateJpaRepository;
 import org.springframework.stereotype.Repository;
 
 /**
  * Created by domann on 08.04.15.
  */
 @Repository
-public abstract class AbstractDbService<E extends Entity, R extends GenericRepository<E, Long>> {
+public abstract class AbstractDbService<E extends Entity, R extends HibernateJpaRepository<E, Long>> {
 
     protected R repository;
 

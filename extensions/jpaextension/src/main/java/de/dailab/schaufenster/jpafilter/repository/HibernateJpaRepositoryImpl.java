@@ -24,12 +24,12 @@ import java.util.Map;
 
 @SuppressWarnings("unchecked")
 @NoRepositoryBean
-public class GenericRepositoryImpl<T, ID extends Serializable>
-        extends SimpleJpaRepository<T, ID> implements GenericRepository<T, ID>, Serializable {
+public class HibernateJpaRepositoryImpl<T, ID extends Serializable>
+        extends SimpleJpaRepository<T, ID> implements HibernateJpaRepository<T, ID>, Serializable {
 
     private static final long serialVersionUID = -5178117799834425008L;
 
-    static Logger logger = Logger.getLogger(GenericRepositoryImpl.class);
+    static Logger logger = Logger.getLogger(HibernateJpaRepositoryImpl.class);
 
     private final JpaEntityInformation<T, ?> entityInformation;
     private final EntityManager em;
@@ -53,7 +53,7 @@ public class GenericRepositoryImpl<T, ID extends Serializable>
      * @param entityInformation
      * @param entityManager
      */
-    public GenericRepositoryImpl(JpaEntityInformation<T, ?> entityInformation, EntityManager entityManager, Class<?> springDataRepositoryInterface) {
+    public HibernateJpaRepositoryImpl(JpaEntityInformation<T, ?> entityInformation, EntityManager entityManager, Class<?> springDataRepositoryInterface) {
         super(entityInformation, entityManager);
         this.entityInformation = entityInformation;
         this.em = entityManager;
@@ -68,7 +68,7 @@ public class GenericRepositoryImpl<T, ID extends Serializable>
      * @param domainClass
      * @param em
      */
-    public GenericRepositoryImpl(Class<T> domainClass, EntityManager em) {
+    public HibernateJpaRepositoryImpl(Class<T> domainClass, EntityManager em) {
         this(JpaEntityInformationSupport.getMetadata(domainClass, em), em, null);
     }
 
@@ -76,12 +76,11 @@ public class GenericRepositoryImpl<T, ID extends Serializable>
     public  <S extends T> S save(S entity) {
         Session session = em.unwrap(Session.class).getSessionFactory().openSession();
         Transaction tx  = session.beginTransaction();
-//        if (entityInformation.isNew(entity)) {
-//            session.saveOrUpdate(entity);
-//        } else {
-//            session.update(entity);
-//        }
-        session.saveOrUpdate(entity);
+        if (entityInformation.isNew(entity)) {
+            session.saveOrUpdate(entity);
+        } else {
+            session.merge(entity);
+        }
         tx.commit();
         session.close();
         return entity;
@@ -118,7 +117,7 @@ public class GenericRepositoryImpl<T, ID extends Serializable>
     }
 
     public List<T> doQueryWithFilter(String filterName, String filterQueryName, Map inFilterParams, Map inQueryParams) {
-        if (GenericRepository.class.isAssignableFrom(getSpringDataRepositoryInterface())) {
+        if (HibernateJpaRepository.class.isAssignableFrom(getSpringDataRepositoryInterface())) {
             Annotation entityFilterAnn = getSpringDataRepositoryInterface().getAnnotation(EntityFilter.class);
             if (entityFilterAnn != null) {
                 EntityFilter entityFilter = (EntityFilter) entityFilterAnn;

@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Created by domann on 15.07.15.
  */
-public class FamilyCreator {
+public class MotherFactory {
 
     public static MotherBiDirectional createFamily(){
         return createMother(createChildren());

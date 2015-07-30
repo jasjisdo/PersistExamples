@@ -22,22 +22,23 @@ public class OrphanAdoptionTest {
     protected static ChildBiDirectionalService childBiDirectionalService;
 
     protected MotherBiDirectional mother;
+    private static ClassPathXmlApplicationContext context;
 
     @BeforeClass
     public static void init() {
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(CONTEXT_LOCATION);
+        context = new ClassPathXmlApplicationContext(CONTEXT_LOCATION);
         motherBiDirectionalService = ContextUtil.getDbService(context, MotherBiDirectionalService.class);
         childBiDirectionalService = ContextUtil.getDbService(context, ChildBiDirectionalService.class);
     }
 
     @AfterClass
     public static void terminate() {
-
+        context.close();
     }
 
     @Before
     public void setUp() {
-        mother = FamilyCreator.createFamily();
+        mother = MotherFactory.createFamily();
     }
 
     @After

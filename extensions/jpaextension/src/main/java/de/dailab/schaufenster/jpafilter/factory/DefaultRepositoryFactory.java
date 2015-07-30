@@ -14,7 +14,7 @@ import javax.persistence.EntityManager;
 
 
 import de.dailab.schaufenster.jpafilter.repository.DefaultPersistenceProvider;
-import de.dailab.schaufenster.jpafilter.repository.GenericRepositoryImpl;
+import de.dailab.schaufenster.jpafilter.repository.HibernateJpaRepositoryImpl;
 import org.springframework.data.jpa.repository.query.QueryExtractor;
 import org.springframework.data.jpa.repository.support.JpaEntityInformation;
 import org.springframework.data.jpa.repository.support.JpaRepositoryFactory;
@@ -50,7 +50,7 @@ public  class DefaultRepositoryFactory extends JpaRepositoryFactory{
         if (isQueryDslExecutor(repositoryInterface)) {
             return new QueryDslJpaRepository(entityInformation, entityManager);
         } else {
-            return new GenericRepositoryImpl(entityInformation, entityManager, repositoryInterface); //custom implementation
+            return new HibernateJpaRepositoryImpl(entityInformation, entityManager, repositoryInterface); //custom implementation
         }
     }
   
@@ -60,7 +60,7 @@ public  class DefaultRepositoryFactory extends JpaRepositoryFactory{
         if (isQueryDslExecutor(metadata.getRepositoryInterface())) {
             return QueryDslJpaRepository.class;
         } else {
-            return GenericRepositoryImpl.class;
+            return HibernateJpaRepositoryImpl.class;
         }
     }
      

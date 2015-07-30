@@ -1,6 +1,7 @@
-package com.github.jajisdo.hbmexample2.entity.one2many.bidrectional;
+package com.github.jajisdo.hbmexample2.entity;
 
 import com.github.jajisdo.hbmexample2.entity.one2many.bidirectional.MotherBiDirectional;
+import com.github.jajisdo.hbmexample2.entity.one2many.bidrectional.MotherFactory;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -18,23 +19,24 @@ public class SimultanSessionTest {
     protected static final String CONTEXT_LOCATION = "/inmemory-database-test-annotation-context.xml";
     protected static SessionFactory sessionFactory;
     protected static EntityManagerFactory entityManagerFactory;
-    protected MotherBiDirectional mother;
+    protected static MotherBiDirectional mother;
+    protected static ClassPathXmlApplicationContext context;
 
     @BeforeClass
     public static void init() {
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(CONTEXT_LOCATION);
+        context = new ClassPathXmlApplicationContext(CONTEXT_LOCATION);
         sessionFactory = (SessionFactory) context.getBean("sessionFactory");
         entityManagerFactory = (EntityManagerFactory) context.getBean("entityManagerFactory");
     }
 
     @AfterClass
     public static void terminate() {
-
+        context.close();
     }
 
     @Before
     public void setUp() {
-        mother = FamilyCreator.createFamily();
+        mother = MotherFactory.createFamily();
     }
 
     @After
