@@ -1,5 +1,6 @@
 package com.github.jajisdo.hbmexample2.service;
 
+import com.github.jajisdo.hbmexample2.entity.Entity;
 import com.github.jajisdo.hbmexample2.entity.one2many.bidirectional.ChildBiDirectional;
 import com.github.jajisdo.hbmexample2.repository.ChildBiDirectionalRepository;
 import org.springframework.beans.factory.annotation.Autowired;

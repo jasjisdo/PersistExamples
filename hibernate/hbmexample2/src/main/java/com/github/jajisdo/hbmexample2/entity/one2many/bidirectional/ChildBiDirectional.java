@@ -1,7 +1,6 @@
 package com.github.jajisdo.hbmexample2.entity.one2many.bidirectional;
 
 import javax.persistence.*;
-import javax.persistence.Entity;
 
 /**
  * Created by domann on 15.07.15.
@@ -25,7 +24,8 @@ public class ChildBiDirectional extends com.github.jajisdo.hbmexample2.entity.En
     @Column(name = "child_name")
     private String name;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(
+            cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
     @JoinColumn(name="mother_id",
             nullable = true, updatable = true, insertable = true)
     private MotherBiDirectional mother;
@@ -39,7 +39,7 @@ public class ChildBiDirectional extends com.github.jajisdo.hbmexample2.entity.En
 
     public ChildBiDirectional(String name) {
         super();
-        this.name   = name;
+        this.name = name;
     }
 
     public String getName() {
@@ -53,4 +53,5 @@ public class ChildBiDirectional extends com.github.jajisdo.hbmexample2.entity.En
     public void setMother(MotherBiDirectional mother) {
         this.mother = mother;
     }
+
 }

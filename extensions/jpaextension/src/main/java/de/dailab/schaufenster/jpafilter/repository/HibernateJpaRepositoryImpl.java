@@ -75,14 +75,21 @@ public class HibernateJpaRepositoryImpl<T, ID extends Serializable>
     @Override
     public  <S extends T> S save(S entity) {
         Session session = em.unwrap(Session.class).getSessionFactory().openSession();
-        Transaction tx  = session.beginTransaction();
-        if (entityInformation.isNew(entity)) {
-            session.saveOrUpdate(entity);
-        } else {
-            session.merge(entity);
+        Transaction tx  = null;
+        try {
+            tx = session.beginTransaction();
+            if (entityInformation.isNew(entity)) {
+                session.saveOrUpdate(entity);
+            } else {
+                session.merge(entity);
+            }
+            tx.commit();
+        }catch (Exception e) {
+            if (tx != null) tx.rollback();
+            e.printStackTrace();
+        }finally {
+            session.close();
         }
-        tx.commit();
-        session.close();
         return entity;
     }
 
@@ -149,4 +156,4 @@ public class HibernateJpaRepositoryImpl<T, ID extends Serializable>
         return null;
     }
 
-} 
+}

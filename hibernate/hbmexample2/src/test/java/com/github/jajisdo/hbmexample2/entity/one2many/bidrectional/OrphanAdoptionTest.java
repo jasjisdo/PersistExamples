@@ -8,6 +8,7 @@ import com.github.jajisdo.hbmexample2.util.ContextUtil;
 import org.junit.*;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -86,5 +87,23 @@ public class OrphanAdoptionTest {
 
         assertEquals(1, motherBiDirectionalService.count());
         assertEquals(4, childBiDirectionalService.count());
+    }
+
+    @Test
+    public void testBornInDatabase() {
+
+        MotherBiDirectional mother = new MotherBiDirectional("mutter", new ArrayList<ChildBiDirectional>());
+        motherBiDirectionalService.store(mother);
+        motherBiDirectionalService.flush();
+
+        // persist new child as orphan.
+        ChildBiDirectional maria = new ChildBiDirectional("maria");
+        mother.getChildren().add(maria);
+        maria.setMother(mother);
+        childBiDirectionalService.store(maria);
+
+        assertEquals(1, motherBiDirectionalService.count());
+        assertEquals(1, childBiDirectionalService.count());
+
     }
 }
