@@ -1,5 +1,7 @@
 package com.github.jajisdo.hbmexample2.entity.one2one.unidirectional;
 
+import com.github.jajisdo.hbmexample2.entity.PersistableEntity;
+
 import javax.persistence.*;
 
 /**
@@ -7,15 +9,15 @@ import javax.persistence.*;
  */
 @Entity
 @NamedEntityGraph(
-        name = MatriculationNumberUniDirectional.EG_PROFILE_FULL,
+        name = MatriculationNumber.EG_PROFILE_FULL,
         attributeNodes = {
                 @NamedAttributeNode(value = "number")
         }
 )
 @NamedQueries({
-        @NamedQuery(name = "MatriculationNumberUniDirectional.getIDs", query = "SELECT mn.id FROM MatriculationNumberUniDirectional mn")
+        @NamedQuery(name = "MatriculationNumber.getIDs", query = "SELECT mn.id FROM MatriculationNumber mn")
 })
-public class MatriculationNumberUniDirectional extends com.github.jajisdo.hbmexample2.entity.Entity {
+public class MatriculationNumber extends PersistableEntity {
 
     @Transient
     public transient static final String EG_PROFILE_FULL = "MatriculationNumberFull";

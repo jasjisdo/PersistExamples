@@ -10,14 +10,14 @@ import java.io.Serializable;
  */
 @MappedSuperclass
 @Access(AccessType.FIELD)
-public class Entity implements Serializable, Persistable<Long> {
+public class PersistableEntity implements Serializable, Persistable<Long> {
 
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     @Column(unique=true, nullable = false)
     private final Long id;
 
-    public Entity() {
+    public PersistableEntity() {
         this.id = 0L;
     }
 

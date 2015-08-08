@@ -1,7 +1,7 @@
 package com.github.jajisdo.hbmexample2.service;
 
-import com.github.jajisdo.hbmexample2.entity.one2many.bidirectional.MotherBiDirectional;
-import com.github.jajisdo.hbmexample2.repository.MotherBiDirectionalRepository;
+import com.github.jajisdo.hbmexample2.entity.one2many.bidirectional.Parent;
+import com.github.jajisdo.hbmexample2.repository.ParentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
@@ -17,16 +17,16 @@ import java.util.List;
 @Service
 @Repository
 @Transactional
-public class MotherBiDirectionalService extends AbstractDbService<MotherBiDirectional, MotherBiDirectionalRepository>{
+public class ParentService extends AbstractDbService<Parent, ParentRepository>{
 
     @Override
-    public MotherBiDirectional findById(long id) {
+    public Parent findById(long id) {
         return repository.findById(id);
     }
 
     @Override
-    public List<MotherBiDirectional> findAll() {
-        List<MotherBiDirectional> mothers = new ArrayList<>();
+    public List<Parent> findAll() {
+        List<Parent> mothers = new ArrayList<>();
         List<Long> ids = repository.getIDs();
         for (Long id : ids){
             mothers.add(repository.findById(id));
@@ -34,10 +34,14 @@ public class MotherBiDirectionalService extends AbstractDbService<MotherBiDirect
         return mothers;
     }
 
+    public Parent findByName(String name){
+        return repository.findByName(name);
+    }
+
     @Override
-    @Qualifier("motherBiDirectionalRepository")
+    @Qualifier("parentRepository")
     @Autowired
-    public void setRepository(MotherBiDirectionalRepository repository) {
+    public void setRepository(ParentRepository repository) {
         this.repository = repository;
     }
 }

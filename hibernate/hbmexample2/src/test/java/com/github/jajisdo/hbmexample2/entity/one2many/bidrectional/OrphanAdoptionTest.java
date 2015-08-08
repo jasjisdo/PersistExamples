@@ -1,9 +1,9 @@
 package com.github.jajisdo.hbmexample2.entity.one2many.bidrectional;
 
-import com.github.jajisdo.hbmexample2.entity.one2many.bidirectional.ChildBiDirectional;
-import com.github.jajisdo.hbmexample2.entity.one2many.bidirectional.MotherBiDirectional;
-import com.github.jajisdo.hbmexample2.service.ChildBiDirectionalService;
-import com.github.jajisdo.hbmexample2.service.MotherBiDirectionalService;
+import com.github.jajisdo.hbmexample2.entity.one2many.bidirectional.Child;
+import com.github.jajisdo.hbmexample2.entity.one2many.bidirectional.Parent;
+import com.github.jajisdo.hbmexample2.service.ChildService;
+import com.github.jajisdo.hbmexample2.service.ParentService;
 import com.github.jajisdo.hbmexample2.util.ContextUtil;
 import org.junit.*;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -19,17 +19,17 @@ import static org.junit.Assert.*;
 public class OrphanAdoptionTest {
 
     protected static final String CONTEXT_LOCATION = "/inmemory-database-test-annotation-context.xml";
-    protected static MotherBiDirectionalService motherBiDirectionalService;
-    protected static ChildBiDirectionalService childBiDirectionalService;
+    protected static ParentService parentService;
+    protected static ChildService childService;
 
-    protected MotherBiDirectional mother;
+    protected Parent parent;
     private static ClassPathXmlApplicationContext context;
 
     @BeforeClass
     public static void init() {
         context = new ClassPathXmlApplicationContext(CONTEXT_LOCATION);
-        motherBiDirectionalService = ContextUtil.getDbService(context, MotherBiDirectionalService.class);
-        childBiDirectionalService = ContextUtil.getDbService(context, ChildBiDirectionalService.class);
+        parentService = ContextUtil.getDbService(context, ParentService.class);
+        childService = ContextUtil.getDbService(context, ChildService.class);
     }
 
     @AfterClass
@@ -39,71 +39,57 @@ public class OrphanAdoptionTest {
 
     @Before
     public void setUp() {
-        mother = MotherFactory.createFamily();
+        parent = ParentFactory.createFamily();
     }
 
     @After
     public void tearDown() {
-
-    }
-
-    @Test
-    public void testRepositories() {
-        assertTrue(mother.isNew());
-        MotherBiDirectional persistedMother = motherBiDirectionalService.store(mother);
-        assertNotNull(persistedMother);
-        assertFalse(mother.isNew());
-        assertEquals(mother, persistedMother);
-        assertEquals(1, motherBiDirectionalService.count());
-        assertEquals(3, childBiDirectionalService.count());
-        motherBiDirectionalService.removeAll();
-        childBiDirectionalService.removeAll();
-        assertEquals(0, motherBiDirectionalService.count());
-        assertEquals(0, childBiDirectionalService.count());
+        parentService.removeAll();
+        childService.removeAll();
     }
 
     @Test
     public void testAdoptionInDatabase() {
 
         // persist new child as orphan.
-        ChildBiDirectional maria = new ChildBiDirectional("maria");
-        ChildBiDirectional persistedMaria = childBiDirectionalService.store(maria);
-        assertEquals(1, childBiDirectionalService.count());
+        Child maria = new Child("maria");
+        Child persistedMaria = childService.store(maria);
+        assertEquals(1, childService.count());
         assertEquals(maria, persistedMaria);
 
-        // add maria to children of mother
-        List<ChildBiDirectional> children = mother.getChildren();
+        // add maria to children of parent
+        List<Child> children = parent.getChildren();
         children.add(persistedMaria);
-        assertEquals(4, mother.getChildren().size());
+        assertEquals(4, parent.getChildren().size());
 
-        motherBiDirectionalService.store(mother);
+        parentService.store(parent);
 
-        assertEquals(1, motherBiDirectionalService.count());
-        assertEquals(4, childBiDirectionalService.count());
+        assertEquals(1, parentService.count());
+        assertEquals(4, childService.count());
 
         for (int i = 0; i < 100; i++) {
-            motherBiDirectionalService.store(mother);
+            parentService.store(parent);
         }
 
-        assertEquals(1, motherBiDirectionalService.count());
-        assertEquals(4, childBiDirectionalService.count());
+        assertEquals(1, parentService.count());
+        assertEquals(4, childService.count());
     }
 
     @Test
     public void testBornInDatabase() {
 
-        MotherBiDirectional mother = new MotherBiDirectional("mutter", new ArrayList<ChildBiDirectional>());
-        motherBiDirectionalService.store(mother);
-        motherBiDirectionalService.flush();
+        Parent mother = new Parent("mutter", new ArrayList<Child>());
+        parentService.store(mother);
+        parentService.flush();
 
         // persist new child as orphan.
-        ChildBiDirectional maria = new ChildBiDirectional("maria");
+        Child maria = new Child("maria");
         mother.getChildren().add(maria);
-        maria.setMother(mother);
-        childBiDirectionalService.store(maria);
+        //maria.setParent(parent);
+        childService.store(maria);
 
-        assertEquals(1, motherBiDirectionalService.count());
-        assertEquals(1, childBiDirectionalService.count());
+        assertEquals(1, parentService.count());
+        assertEquals(1, childService.count());
 
     }
 }

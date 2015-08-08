@@ -1,7 +1,7 @@
 package com.github.jajisdo.hbmexample2.service;
 
-import com.github.jajisdo.hbmexample2.entity.one2one.unidirectional.StudentUniDirectional;
-import com.github.jajisdo.hbmexample2.repository.StudentUniDirectionalRepository;
+import com.github.jajisdo.hbmexample2.entity.one2one.unidirectional.Student;
+import com.github.jajisdo.hbmexample2.repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
@@ -18,16 +18,16 @@ import java.util.List;
 @Repository
 @Transactional
 public class StudentUniDirectionalService extends
-        AbstractDbService<StudentUniDirectional, StudentUniDirectionalRepository> {
+        AbstractDbService<Student, StudentRepository> {
 
     @Override
-    public StudentUniDirectional findById(long id) {
+    public Student findById(long id) {
         return repository.findById(id);
     }
 
     @Override
-    public Iterable<? extends StudentUniDirectional> findAll() {
-        List<StudentUniDirectional> students = new ArrayList<>();
+    public Iterable<? extends Student> findAll() {
+        List<Student> students = new ArrayList<>();
         List<Long> ids = repository.getIDs();
         for (Long id : ids){
             students.add(repository.findById(id));
@@ -36,9 +36,9 @@ public class StudentUniDirectionalService extends
     }
 
     @Override
-    @Qualifier("studentUniDirectionalRepository")
+    @Qualifier("studentRepository")
     @Autowired
-    public void setRepository(StudentUniDirectionalRepository repository) {
+    public void setRepository(StudentRepository repository) {
         this.repository = repository;
     }
 }

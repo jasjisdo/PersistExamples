@@ -1,7 +1,7 @@
 package com.github.jajisdo.hbmexample2.service;
 
-import com.github.jajisdo.hbmexample2.entity.one2one.unidirectional.MatriculationNumberUniDirectional;
-import com.github.jajisdo.hbmexample2.repository.MatriculationNumberUniDirectionalRepository;
+import com.github.jajisdo.hbmexample2.entity.one2one.unidirectional.MatriculationNumber;
+import com.github.jajisdo.hbmexample2.repository.MatriculationNumberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
@@ -17,17 +17,17 @@ import java.util.List;
 @Service
 @Repository
 @Transactional
-public class MatriculationNumberUniDirectionalService extends
-        AbstractDbService<MatriculationNumberUniDirectional, MatriculationNumberUniDirectionalRepository> {
+public class MatriculationNumberService extends
+        AbstractDbService<MatriculationNumber, MatriculationNumberRepository> {
 
     @Override
-    public MatriculationNumberUniDirectional findById(long id) {
+    public MatriculationNumber findById(long id) {
         return repository.findById(id);
     }
 
     @Override
-    public Iterable<? extends MatriculationNumberUniDirectional> findAll() {
-        List<MatriculationNumberUniDirectional> numbers = new ArrayList<>();
+    public Iterable<? extends MatriculationNumber> findAll() {
+        List<MatriculationNumber> numbers = new ArrayList<>();
         List<Long> ids = repository.getIDs();
         for (Long id : ids){
             numbers.add(repository.findById(id));
@@ -36,9 +36,9 @@ public class MatriculationNumberUniDirectionalService extends
     }
 
     @Override
-    @Qualifier("matriculationNumberUniDirectionalRepository")
+    @Qualifier("matriculationNumberRepository")
     @Autowired
-    public void setRepository(MatriculationNumberUniDirectionalRepository repository) {
+    public void setRepository(MatriculationNumberRepository repository) {
         this.repository = repository;
     }
 }

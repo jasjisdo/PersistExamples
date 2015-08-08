@@ -1,22 +1,24 @@
 package com.github.jajisdo.hbmexample2.entity.one2many.bidirectional;
 
+import com.github.jajisdo.hbmexample2.entity.PersistableEntity;
+
 import javax.persistence.*;
 import javax.persistence.Entity;
 import java.util.List;
 
 @Entity
 @NamedEntityGraph(
-        name = MotherBiDirectional.EG_PROFILE_FULL,
+        name = Parent.EG_PROFILE_FULL,
         attributeNodes = {
                 @NamedAttributeNode(value = "name"),
                 @NamedAttributeNode(value = "children",
-                        subgraph = ChildBiDirectional.EG_PROFILE_FULL)
+                        subgraph = Child.EG_PROFILE_FULL)
         }
 )
 @NamedQueries({
-        @NamedQuery(name = "MotherBiDirectional.getIDs", query = "SELECT mum.id FROM MotherBiDirectional mum")
+        @NamedQuery(name = "Parent.getIDs", query = "SELECT parent.id FROM Parent parent")
 })
-public class MotherBiDirectional extends com.github.jajisdo.hbmexample2.entity.Entity {
+public class Parent extends PersistableEntity {
 
     @Transient
     public transient static final String EG_PROFILE_FULL = "MotherFull";
@@ -24,28 +26,28 @@ public class MotherBiDirectional extends com.github.jajisdo.hbmexample2.entity.E
     @Column(name = "child_name")
     private String name;
 
-    @OneToMany(mappedBy = "mother",
+    @OneToMany(mappedBy = "parent",
             cascade = {CascadeType.ALL})
     @OrderColumn(name = "idx")
-    private List<ChildBiDirectional> children;
+    private List<Child> children;
 
     /*
      * hibernate "reflection-magic" constructor
      */
-    protected MotherBiDirectional(){
+    protected Parent(){
         super();
     }
 
-    public MotherBiDirectional(String name, List<ChildBiDirectional> children) {
+    public Parent(String name, List<Child> children) {
         super();
         this.name     = name;
         this.children = children;
         adoptChildren(children);
     }
 
-    private void adoptChildren(List<ChildBiDirectional> children) {
-        for(ChildBiDirectional child : children) {
-              child.setMother(this);
+    private void adoptChildren(List<Child> children) {
+        for(Child child : children) {
+              child.setParent(this);
         }
     }
 
@@ -53,7 +55,7 @@ public class MotherBiDirectional extends com.github.jajisdo.hbmexample2.entity.E
         return name;
     }
 
-    public List<ChildBiDirectional> getChildren() {
+    public List<Child> getChildren() {
         return children;
     }
 }

@@ -1,5 +1,7 @@
 package com.github.jajisdo.hbmexample2.entity.one2many.bidirectional;
 
+import com.github.jajisdo.hbmexample2.entity.PersistableEntity;
+
 import javax.persistence.*;
 
 /**
@@ -7,16 +9,16 @@ import javax.persistence.*;
  */
 @Entity
 @NamedEntityGraph(
-        name = ChildBiDirectional.EG_PROFILE_FULL,
+        name = Child.EG_PROFILE_FULL,
         attributeNodes = {
                 @NamedAttributeNode(value = "name"),
-                @NamedAttributeNode(value = "mother", subgraph = MotherBiDirectional.EG_PROFILE_FULL)
+                @NamedAttributeNode(value = "parent", subgraph = Parent.EG_PROFILE_FULL)
         }
 )
 @NamedQueries({
-        @NamedQuery(name = "ChildBiDirectional.getIDs", query = "SELECT ch.id FROM ChildBiDirectional ch")
+        @NamedQuery(name = "Child.getIDs", query = "SELECT ch.id FROM Child ch")
 })
-public class ChildBiDirectional extends com.github.jajisdo.hbmexample2.entity.Entity {
+public class Child extends PersistableEntity {
 
     @Transient
     public transient static final String EG_PROFILE_FULL = "ChildFull";
@@ -26,18 +28,18 @@ public class ChildBiDirectional extends com.github.jajisdo.hbmexample2.entity.En
 
     @ManyToOne(
             cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
-    @JoinColumn(name="mother_id",
+    @JoinColumn(name="parent_id",
             nullable = true, updatable = true, insertable = true)
-    private MotherBiDirectional mother;
+    private Parent parent;
 
     /*
    * hibernate "reflection-magic" constructor
    */
-    protected ChildBiDirectional(){
+    protected Child(){
         super();
     }
 
-    public ChildBiDirectional(String name) {
+    public Child(String name) {
         super();
         this.name = name;
     }
@@ -46,12 +48,12 @@ public class ChildBiDirectional extends com.github.jajisdo.hbmexample2.entity.En
         return name;
     }
 
-    public MotherBiDirectional getMother() {
-        return mother;
+    public Parent getParent() {
+        return parent;
     }
 
-    public void setMother(MotherBiDirectional mother) {
-        this.mother = mother;
+    public void setParent(Parent parent) {
+        this.parent = parent;
     }
 
 }

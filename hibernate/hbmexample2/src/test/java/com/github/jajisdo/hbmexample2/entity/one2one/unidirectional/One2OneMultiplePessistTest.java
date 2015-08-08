@@ -1,6 +1,6 @@
 package com.github.jajisdo.hbmexample2.entity.one2one.unidirectional;
 
-import com.github.jajisdo.hbmexample2.service.MatriculationNumberUniDirectionalService;
+import com.github.jajisdo.hbmexample2.service.MatriculationNumberService;
 import com.github.jajisdo.hbmexample2.service.StudentUniDirectionalService;
 import com.github.jajisdo.hbmexample2.util.ContextUtil;
 import org.junit.*;
@@ -15,16 +15,16 @@ public class One2OneMultiplePessistTest {
 
     protected static final String CONTEXT_LOCATION = "/inmemory-database-test-annotation-context.xml";
     protected static StudentUniDirectionalService studentUniDirectionalService;
-    protected static MatriculationNumberUniDirectionalService matriculationNumberUniDirectionalService;
+    protected static MatriculationNumberService matriculationNumberUniDirectionalService;
 
-    protected StudentUniDirectional student;
+    protected Student student;
     private static ClassPathXmlApplicationContext context;
 
     @BeforeClass
     public static void init() {
         context = new ClassPathXmlApplicationContext(CONTEXT_LOCATION);
         studentUniDirectionalService = ContextUtil.getDbService(context, StudentUniDirectionalService.class);
-        matriculationNumberUniDirectionalService = ContextUtil.getDbService(context, MatriculationNumberUniDirectionalService.class);
+        matriculationNumberUniDirectionalService = ContextUtil.getDbService(context, MatriculationNumberService.class);
     }
 
     @AfterClass
@@ -49,14 +49,14 @@ public class One2OneMultiplePessistTest {
         studentUniDirectionalService.store(student);
         /*
         assertNotNull(persistedMother);
-        assertFalse(mother.isNew());
-        assertEquals(mother, persistedMother);
-        assertEquals(1, motherBiDirectionalService.count());
-        assertEquals(3, childBiDirectionalService.count());
-        motherBiDirectionalService.removeAll();
-        childBiDirectionalService.removeAll();
-        assertEquals(0, motherBiDirectionalService.count());
-        assertEquals(0, childBiDirectionalService.count());
+        assertFalse(parent.isNew());
+        assertEquals(parent, persistedMother);
+        assertEquals(1, parentService.count());
+        assertEquals(3, childService.count());
+        parentService.removeAll();
+        childService.removeAll();
+        assertEquals(0, parentService.count());
+        assertEquals(0, childService.count());
         */
     }
 

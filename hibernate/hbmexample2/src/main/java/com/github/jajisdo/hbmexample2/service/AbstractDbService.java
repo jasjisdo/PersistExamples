@@ -1,6 +1,6 @@
 package com.github.jajisdo.hbmexample2.service;
 
-import com.github.jajisdo.hbmexample2.entity.Entity;
+import com.github.jajisdo.hbmexample2.entity.PersistableEntity;
 import de.dailab.schaufenster.jpafilter.repository.HibernateJpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
  * Created by domann on 08.04.15.
  */
 @Repository
-public abstract class AbstractDbService<E extends Entity, R extends HibernateJpaRepository<E, Long>> {
+public abstract class AbstractDbService<E extends PersistableEntity, R extends HibernateJpaRepository<E, Long>> {
 
     protected R repository;
 

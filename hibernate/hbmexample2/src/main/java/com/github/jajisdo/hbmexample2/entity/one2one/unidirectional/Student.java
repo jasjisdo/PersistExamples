@@ -1,5 +1,7 @@
 package com.github.jajisdo.hbmexample2.entity.one2one.unidirectional;
 
+import com.github.jajisdo.hbmexample2.entity.PersistableEntity;
+
 import javax.persistence.*;
 
 /**
@@ -7,16 +9,16 @@ import javax.persistence.*;
  */
 @Entity
 @NamedEntityGraph(
-        name = StudentUniDirectional.EG_PROFILE_FULL,
+        name = Student.EG_PROFILE_FULL,
         attributeNodes = {
                 @NamedAttributeNode(value = "name"),
-                @NamedAttributeNode(value = "matriculationNumber", subgraph = MatriculationNumberUniDirectional.EG_PROFILE_FULL)
+                @NamedAttributeNode(value = "matriculationNumber", subgraph = MatriculationNumber.EG_PROFILE_FULL)
         }
 )
 @NamedQueries({
-        @NamedQuery(name = "StudentUniDirectional.getIDs", query = "SELECT s.id FROM StudentUniDirectional s")
+        @NamedQuery(name = "Student.getIDs", query = "SELECT s.id FROM Student s")
 })
-public class StudentUniDirectional extends com.github.jajisdo.hbmexample2.entity.Entity {
+public class Student extends PersistableEntity {
 
     @Transient
     public transient static final String EG_PROFILE_FULL = "StudentFull";
@@ -26,7 +28,7 @@ public class StudentUniDirectional extends com.github.jajisdo.hbmexample2.entity
 
     @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
     @JoinColumn(name = "student_id")
-    protected MatriculationNumberUniDirectional matriculationNumber;
+    protected MatriculationNumber matriculationNumber;
 
     public String getName() {
         return name;
@@ -36,11 +38,11 @@ public class StudentUniDirectional extends com.github.jajisdo.hbmexample2.entity
         this.name = name;
     }
 
-    public MatriculationNumberUniDirectional getMatriculationNumber() {
+    public MatriculationNumber getMatriculationNumber() {
         return matriculationNumber;
     }
 
-    public void setMatriculationNumber(MatriculationNumberUniDirectional matriculationNumber) throws Exception {
+    public void setMatriculationNumber(MatriculationNumber matriculationNumber) throws Exception {
         this.matriculationNumber = matriculationNumber;
     }
 }
