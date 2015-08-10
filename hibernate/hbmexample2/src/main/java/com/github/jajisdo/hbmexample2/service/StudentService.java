@@ -17,7 +17,7 @@ import java.util.List;
 @Service
 @Repository
 @Transactional
-public class StudentUniDirectionalService extends
+public class StudentService extends
         AbstractDbService<Student, StudentRepository> {
 
     @Override

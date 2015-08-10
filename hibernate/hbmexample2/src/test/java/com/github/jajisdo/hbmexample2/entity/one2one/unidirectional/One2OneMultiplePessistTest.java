@@ -1,7 +1,7 @@
 package com.github.jajisdo.hbmexample2.entity.one2one.unidirectional;
 
 import com.github.jajisdo.hbmexample2.service.MatriculationNumberService;
-import com.github.jajisdo.hbmexample2.service.StudentUniDirectionalService;
+import com.github.jajisdo.hbmexample2.service.StudentService;
 import com.github.jajisdo.hbmexample2.util.ContextUtil;
 import org.junit.*;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -14,7 +14,7 @@ import static org.junit.Assert.assertTrue;
 public class One2OneMultiplePessistTest {
 
     protected static final String CONTEXT_LOCATION = "/inmemory-database-test-annotation-context.xml";
-    protected static StudentUniDirectionalService studentUniDirectionalService;
+    protected static StudentService studentUniDirectionalService;
     protected static MatriculationNumberService matriculationNumberUniDirectionalService;
 
     protected Student student;
@@ -23,7 +23,7 @@ public class One2OneMultiplePessistTest {
     @BeforeClass
     public static void init() {
         context = new ClassPathXmlApplicationContext(CONTEXT_LOCATION);
-        studentUniDirectionalService = ContextUtil.getDbService(context, StudentUniDirectionalService.class);
+        studentUniDirectionalService = ContextUtil.getDbService(context, StudentService.class);
         matriculationNumberUniDirectionalService = ContextUtil.getDbService(context, MatriculationNumberService.class);
     }
 
