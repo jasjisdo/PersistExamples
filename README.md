@@ -1,20 +1,20 @@
 # PersistExamples
 
 ## Android
-* OrmLite
-* SugarORM
-* GreenDAO
-* Active Android
+* OrmLite (Not started)
+* SugarORM (Not started)
+* GreenDAO (Not started)
+* Active Android (Not started)
 * Realm?
 
 ## Java
-* EclipseLink
-* Hibernate
-* JOOQ
-* MyBatis
-* OpenJPA
+* EclipseLink (Not started)
+* Hibernate (In Progress)
+* JOOQ (Not started)
+* MyBatis (Not started)
+* OpenJPA (Not started)
 
 ## Scala
-* Activate
-* Slick
-* SORM
+* Activate (Not started)
+* Slick (Not started)
+* SORM (Not started)
